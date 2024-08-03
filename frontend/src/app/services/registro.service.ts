@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class RegistroService {
 
-  url="https://tempo-1.onrender.com/";
+  url="https://tempo-1.onrender.com/registro";
   constructor(private http:HttpClient) { }
 
   registrarUsuario(data: any) {
