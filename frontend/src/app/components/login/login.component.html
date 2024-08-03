@@ -1,0 +1,30 @@
+
+<div class="fullcontent">
+    <div class="headings">
+        <h1>TemPo Finanzas</h1>
+        <h2> “No ahorres lo que te queda después de gastar, gasta lo que te queda después de ahorrar.” </h2>
+        <h2> Warren Buffet. </h2>
+    </div>
+    
+    <div class="formbox">
+        <h3>Iniciar sesion.</h3>
+        <form [formGroup]="loginForm"> 
+    
+            <label for="email">E-mail</label>
+            <input type="email" placeholder="Ingrese e-mail" id="email" name="email" class="form-control" style="color: white" formControlName="email"/>
+    
+            <label for="password">Contraseña</label>
+            <input type="password" placeholder="Ingrese contraseña" id="password" name="password" class="form-control" style="color: white" formControlName="password"/>
+    
+            
+      
+              <button  type="submit" class="comic-button" (click)="submit()"> Ingresar →</button>
+              
+            
+        </form>	
+<div class="registro">
+        <p> Para registrarse, haga click <a routerLink="/registro"> aca</a></p>
+    </div>
+    </div>
+    </div> 
+    

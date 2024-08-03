@@ -1,0 +1,176 @@
+<div class="container-fluid">
+    <div class="registro-section">
+      <div class="group" style="height: 50px; position: relative; top: 30px">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
+          <g>
+            <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+          </g>
+        </svg>
+        <input class="input" type="search" placeholder="Search" [(ngModel)]="searchTerm" (input)="filterRegistros()" style="position: relative; top:44px"/>
+      </div>
+      
+      <button class="btn btn-secondary float-end m-3" (click)="openModal('addRegistroModal', {})" style="position: relative; top: 0px">
+        Agregar registro.
+      </button> 
+  
+      <table class="table table-striped" id="registro" #registro>
+        <thead>
+          <tr>
+            <th>X</th>
+            <th>Motivo</th>
+            <th>Ingreso</th>
+            <th>Gasto</th>
+            <th>Medio de pago</th>
+            <th>Fecha</th>
+            <th style="text-align: center;">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredRegistroList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.registroMotivo }}</td>
+            <td style="color: green;">{{ item.registroIngreso | currency }}</td>
+            <td style="color: red;">{{ item.registroGasto | currency }}</td>
+            <td>{{ item.registroMedioPago }}</td>
+            <td>{{ item.registroFecha | date }}</td>
+            <td style="text-align: center;">
+              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn btn-success" (click)="openModal('updateRegistroModal', item._id)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button type="button" class="btn btn-danger" (click)="openModal('deleteModal', item._id)">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          
+          <tr *ngIf="filteredRegistroList.length === 0">
+            <td colspan="7" class="text-center">Registros no disponibles.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  
+  <!-- Agregar -->
+  <div class="modal fade" id="addRegistroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar nuevo registro.</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="registroForm">
+            <div class="row">
+              <div class="col-xl-6">
+                <label for="registroMotivo" class="form-label">Motivo: <sup>*</sup></label>
+                <input type="text" class="form-control form-control-lg w-100 mb-3" id="registroMotivo" placeholder="Escriba el motivo..." formControlName="registroMotivo">
+              </div>
+              <div class="col-xl-6">
+                <label for="registroIngreso" class="form-label">Ingreso: <sup>*</sup></label>
+                <input type="number" class="form-control form-control-lg mb-3" id="registroIngreso" placeholder="Escriba el ingreso..." formControlName="registroIngreso">
+              </div>
+              <div class="col-xl-6">
+                <label for="registroGasto" class="form-label">Gasto: <sup>*</sup></label>
+                <input type="number" class="form-control form-control-lg mb-3" id="registroGasto" placeholder="Escriba el gasto..." formControlName="registroGasto">
+              </div>
+              <div class="col-xl-6">
+                <label for="registroMedioPago" class="form-label">Medio de pago: <sup>*</sup></label>
+                <select name="registroMedioPago" class="form-control form-control-lg mb-3" id="registroMedioPago" formControlName="registroMedioPago">
+                  <option value="" selected disabled>Selecciona una opción...</option>
+                  <option value="Efectivo">Efectivo</option>
+                  <option value="Transferencia">Transferencia</option>
+                  <option value="Credito">Credito</option>
+                  <option value="Debito">Debito</option>
+                  <option value="Mercado pago">Mercado pago</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="col-xl-6">
+                <label for="registroFecha" class="form-label">Fecha: <sup>*</sup></label>
+                <input type="date" class="form-control form-control-lg mb-3" id="registroFecha" placeholder="Ingrese la fecha..." formControlName="registroFecha">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeModal('addRegistroModal')">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="submit()">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Eliminar -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger">Deseas eliminar el registro?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-danger" (click)="delete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Editar -->
+  <div class="modal fade" id="updateRegistroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Editar registro.</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="registroForm">
+            <div class="row">
+              <div class="col-xl-6">
+                <label for="registroMotivo" class="form-label">Motivo: <sup>*</sup></label>
+                <input type="text" class="form-control form-control-lg w-100 mb-3" id="registroMotivo" placeholder="Escriba el motivo..." formControlName="registroMotivo">
+              </div>
+              <div class="col-xl-6">
+                <label for="registroIngreso" class="form-label">Ingreso: <sup>*</sup></label>
+                <input type="number" class="form-control form-control-lg mb-3" id="registroIngreso" placeholder="Escriba el ingreso..." formControlName="registroIngreso"> 
+              </div>
+              <div class="col-xl-6">
+                <label for="registroGasto" class="form-label">Gasto: <sup>*</sup></label>
+                <input type="number" class="form-control form-control-lg mb-3" id="registroGasto" placeholder="Escriba el gasto..." formControlName="registroGasto">
+              </div>
+              <div class="col-xl-6">
+                <label for="registroMedioPago" class="form-label">Medio de pago: <sup>*</sup></label>
+                <select name="registroMedioPago" class="form-control form-control-lg mb-3" id="registroMedioPago" formControlName="registroMedioPago">
+                  <option value="" selected disabled>Selecciona una opción...</option>
+                  <option value="Efectivo">Efectivo</option>
+                  <option value="Transferencia">Transferencia</option>
+                  <option value="Credito">Credito</option>
+                  <option value="Debito">Debito</option>
+                  <option value="Mercado pago">Mercado pago</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="col-xl-6">
+                <label for="registroFecha" class="form-label">Fecha: <sup>*</sup></label>
+                <input type="date" class="form-control form-control-lg mb-3" id="registroFecha" placeholder="Ingrese la fecha..." formControlName="registroFecha">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeModal('updateRegistroModal')">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="update()">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

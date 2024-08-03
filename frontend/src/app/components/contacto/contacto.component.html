@@ -1,0 +1,35 @@
+<br><br>
+<div class="container">
+  <div class="section-contact">
+    <h2>Envia tu mensaje.</h2>
+    <div class="form-contact">
+      <form [formGroup]="datos" (ngSubmit)="envioEmail()">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="single-input">
+              <i class="fas fa-user"></i>
+              <input type="email" name="email" placeholder="INGRESA TU E-MAIL" formControlName="email">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="single-input">
+              <i class="fas fa-envelope"></i>
+              <input type="text" name="asunto" placeholder="INGRESA TU ASUNTO" formControlName="asunto">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="single-input">
+              <i class="fas fa-comment-dots"></i>
+              <textarea placeholder="INGRESA TU MENSAJE" formControlName="mensaje"></textarea>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="submit-input text-center">
+              <input type="submit" name="submit" value="Enviar">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

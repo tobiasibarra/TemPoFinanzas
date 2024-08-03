@@ -1,0 +1,100 @@
+/*** General Styles ***/
+
+th {
+  color: #D5DDE5;
+  background: #000000;
+  border-bottom: 4px solid #ffffff;
+  border-right: 1px solid #343a45;
+  font-size: 18px; /* Reducido para mayor flexibilidad */
+  font-weight: 100;
+  padding: 12px; /* Ajustado para un mejor espaciado en pantallas pequeñas */
+  text-align: left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align: middle;
+}
+
+th:first-child {
+  border-top-left-radius: 3px;
+}
+
+th:last-child {
+  border-top-right-radius: 3px;
+  border-right: none;
+}
+
+.contenedor {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los contenedores se envuelvan en pantallas pequeñas */
+  justify-content: space-between; /* Ajusta el espaciado entre los contenedores */
+  gap: 20px; /* Espacio entre los contenedores */
+  padding: 15px;
+}
+
+.container1, .container2 {
+  flex: 1 1 300px; /* Hace que los contenedores sean flexibles y se ajusten al ancho disponible */
+  min-width: 300px; /* Asegura un ancho mínimo para los contenedores */
+  height: auto; /* Ajusta la altura automáticamente */
+  padding: 15px;
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho y alto */
+  background-color: #f8f9fa; /* Color de fondo para mejor visibilidad */
+}
+
+.ingresos, .gastos {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  font-size: 16px; /* Ajustado para mejor visualización en pantallas pequeñas */
+  border-bottom: 3px solid; /* Ajustado para que el borde sea menos dominante */
+}
+
+.ingresos {
+  color: green;
+  border-color: green;
+}
+
+.gastos {
+  color: red;
+  border-color: red;
+}
+
+h4 {
+  margin: 0;
+}
+
+.echarts {
+  width: 100%; /* Ajusta el ancho para ocupar todo el contenedor disponible */
+  max-width: 800px; /* Ajusta el ancho máximo según el diseño deseado */
+  margin: 0 auto; /* Centra el gráfico */
+}
+
+.total {
+  width: 100%; /* Ajusta el ancho para ocupar todo el contenedor disponible */
+  max-width: 500px; /* Ajusta el ancho máximo según el diseño deseado */
+  margin: 20px auto; /* Centra el total y añade margen en la parte superior e inferior */
+  text-align: center; /* Centra el texto */
+}
+
+/*** Responsive Styles ***/
+
+@media (max-width: 768px) {
+  .container1, .container2 {
+    flex: 1 1 100%; /* Asegura que los contenedores ocupen el ancho completo en pantallas pequeñas */
+    min-width: 0; /* Elimina el ancho mínimo para pantallas pequeñas */
+  }
+
+  .echarts, .total {
+    max-width: 100%; /* Ajusta el ancho máximo para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  th {
+    font-size: 16px; /* Reduce el tamaño del texto para pantallas muy pequeñas */
+    padding: 8px; /* Reduce el espaciado para pantallas pequeñas */
+  }
+
+  .ingresos, .gastos {
+    font-size: 14px; /* Ajusta el tamaño del texto */
+    padding: 5px; /* Reduce el espaciado */
+  }
+}

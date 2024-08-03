@@ -1,0 +1,27 @@
+<div class="fullcontent">
+    <div class="headings">
+      <h1>TemPo Finanzas</h1>
+      <h2>“Un centavo ahorrado es un centavo ganado.”</h2>
+      <h2>Benjamin Franklin.</h2>
+    </div>
+  
+    <div class="formbox">
+      <h3>Registro</h3>
+      <form [formGroup]="userRegForm">
+        <label for="username">Usuario</label>
+        <input type="text" placeholder="Ingrese usuario" id="username" name="username" class="form-control" formControlName="usuario"/>
+  
+        <label for="email">E-mail</label>
+        <input type="email" placeholder="Ingrese e-mail" id="email" name="email" class="form-control" formControlName="email"/>
+  
+        <label for="password">Contraseña</label>
+        <input type="password" placeholder="Ingrese contraseña" id="password" name="password" class="form-control" formControlName="password"/>
+  
+        <label for="confirmPassword">Repita contraseña</label>
+        <input type="password" placeholder="Ingrese contraseña nuevamente" id="confirmPassword" name="confirmPassword" class="form-control" formControlName="confirmPassword"/>
+  
+        <button class="comic-button" (click)="registro()">Registrarse</button>
+      </form>
+    </div>
+  </div>
+  

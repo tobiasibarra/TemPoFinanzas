@@ -1,0 +1,24 @@
+<header class="header">
+  <div class="logo">
+      <a routerLink="/inicio">
+          <img src="../assets/image.ico" alt="Logo de la marca">
+      </a>
+  </div>
+  <nav>
+      <ul class="nav-links" [class.active]="isMenuOpen">
+          <li><a routerLink="/inicio/registros">Registros</a></li>
+          <li><a routerLink="/inicio/presupuesto">Presupuesto</a></li>
+          <li><a routerLink="/inicio/metas">Metas</a></li>
+          <li><a routerLink="/inicio/contacto">Contacto</a></li>
+          <li><a class="btn" (click)="salir()">Salir ➞</a></li>
+      </ul>            
+  </nav>
+  
+  <div class="menu-toggle" (click)="toggleMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+  </div>
+</header>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,97 @@
+<br><br><br>
+
+
+<div class="contenedor">
+<div class="container1">
+
+  
+  <table class="table table-striped" id="registro" #registro>
+    <thead>
+      <tr>
+        <th>X</th>
+        <th>Motivo</th>
+        <th>Ingreso</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+      @for (item of ingresosList; track item; let i=$index) {
+      <tr>
+        <td>{{i+1}}</td>
+        <td>{{item.registroMotivo}}</td>
+        <td style="color: green;">{{item.registroIngreso | currency}}</td>
+        <td>{{item.registroFecha | date}}</td>
+      </tr>
+  
+  
+  
+      }
+  
+      @empty {
+      <p>Registros no disponibles.</p>
+      }
+      
+      
+    </tbody>
+  </table>
+  <div class="ingresos" >
+    <h4>Total ingresos:</h4>
+    <h4>&nbsp; {{totalIngresos | currency}}</h4>
+  </div>
+</div>
+
+<div class="container2">
+
+
+  <table class="table table-striped" id="registro" #registro>
+    <thead>
+      <tr>
+        <th>X</th>
+        <th>Motivo</th>
+        <th> Gastos </th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+      @for (item of gastosList; track item; let i=$index) {
+      <tr>
+        <td>{{i+1}}</td>
+        <td>{{item.registroMotivo}}</td>
+        <td style="color: red;">{{item.registroGasto | currency}}</td>
+        <td>{{item.registroFecha | date}}</td>
+        
+  
+      </tr>
+      }
+  
+      @empty {
+      <p>Registros no disponibles.</p>
+      }
+  
+  
+    </tbody>
+  </table>
+  
+  <div class="gastos">
+    <h4>Total gastos: </h4>
+    <h4> &nbsp; {{ totalGastos | currency}}</h4>
+  </div>
+</div>
+
+</div>
+
+
+<br><br><br>
+
+  
+
+<div echarts [options]="chartOption" class="echarts">
+</div>
+
+<div class="total">
+    <h4> &nbsp; Total: {{ (totalIngresos-totalGastos)| currency}}</h4>
+</div>
+
+

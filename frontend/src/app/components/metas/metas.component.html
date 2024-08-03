@@ -1,0 +1,211 @@
+<br><br>
+<div class="container-fluid">
+    <div class="meta-section">
+        <button class="btn btn-success float-end m-3" (click)="openModal('addMetaModal', {})">
+            Agregar meta.
+        </button>
+  
+      
+  
+        <table class="table table-striped" id="meta" #meta style="text-align: center;">
+            <thead>
+                <tr>
+                    <th>X</th>
+                    <th>Motivo</th>
+                    <th>Objetivo</th>
+                    <th>Ahorrado</th>
+                    <th>Restante</th>
+                    <th>Fecha</th>
+                    <th style="text-align: center;">Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+  
+                @for (item of metaList; track item; let i=$index) {
+                <tr style="text-align: center; vertical-align: middle;">
+                    <td>{{i+1}}</td>
+                    <td>{{item.metaMotivo}}</td>
+                    <td style="color: green;">{{item.metaObjetivo | currency}}</td>
+                    <td *ngIf="(item.metaObjetivo-item.metaAhorrado)>0" style="color: red;">{{item.metaAhorrado | currency}}</td>
+                    <td *ngIf="(item.metaObjetivo-item.metaAhorrado)<=0" style="color: green;">Completado! <i class="bi bi-check2"></i></td>
+
+
+                    <td *ngIf="(item.metaObjetivo-item.metaAhorrado)>0" style="color: red;">{{(item.metaObjetivo-item.metaAhorrado) | currency}} <i class="bi bi-x"></i></td>
+                    <td *ngIf="(item.metaObjetivo-item.metaAhorrado)<=0" style="color: green;">Completado! <i class="bi bi-check2"></i></td>
+
+                   
+
+                    <td>{{item.metaFecha | date}}</td>
+                    <td style="text-align: center;">
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-success" (click)="openModal('updateMetaModal', item._id)"> <i class="bi bi-pencil-square"></i> </button>
+                            <button type="button" class="btn btn-primary" (click)="openModal('addMoneyModal', item._id)"> <i class="bi bi-plus-circle"></i> </button>
+                            <button type="button" class="btn btn-danger" (click)="openModal('deleteModal', item._id)"> <i class="bi bi-trash3-fill"></i> </button>
+                        </div>
+                    </td>
+  
+                </tr>
+
+            
+                <tr>
+                    <td colspan="7">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" [style.width.%]="getPercentage(item)" 
+                                aria-valuenow="getPercentage(item)" aria-valuemin="0" aria-valuemax="100">
+                                {{getPercentage(item).toFixed(2)}}%
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+            }
+            
+            @empty {
+                <p >Metas no disponibles.</p>
+            }
+            
+            </tbody>
+        </table>
+  
+    </div>
+  </div>
+  
+  
+  
+  <!-- Modal -->
+  
+  <!-- add -->
+  <div class="modal fade" id="addMetaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar nueva meta.</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="metaForm">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <label for="metaMotivo" class="form-label">Motivo: <sup>*</sup></label>
+                            <input type="text" class="form-control form-control-lg w-100 mb-3" id="metaMotivo"
+                                placeholder="Escriba el motivo..." formControlName="metaMotivo">
+                        </div>
+                        <div class="col-xl-6">
+                            <label for="metaObjetivo" class="form-label">Objetivo: <sup>*</sup></label>
+                            <input type="number" class="form-control form-control-lg mb-3" id="metaObjetivo"
+                                placeholder="Escriba el objetivo..." formControlName="metaObjetivo">
+                        </div>
+                        <div class="col-xl-6">
+                            <label for="metaAhorrado" class="form-label">Ahorrado: <sup>*</sup></label>
+                            <input type="number" class="form-control form-control-lg mb-3" id="metaAhorrado"
+                                placeholder="Escriba lo ahorrado..." formControlName="metaAhorrado">
+                        </div>
+                        <div class="col-xl-6">
+                          <label for="metaFecha" class="form-label">Fecha: <sup>*</sup></label>
+                          <input type="date" class="form-control form-control-lg mb-3" id="metaFecha"
+                              placeholder="Ingrese la fecha..." formControlName="metaFecha">
+                      </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="closeModal('addMetaModal')">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="submit()">Agregar</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <!-- delete -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseas eliminar la meta? </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-danger" (click)="delete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- update -->
+  <div class="modal fade" id="updateMetaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar meta.</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="metaForm">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <label for="metaMotivo" class="form-label">Motivo: <sup>*</sup></label>
+                            <input type="text" class="form-control form-control-lg w-100 mb-3" id="metaMotivo"
+                                placeholder="Escriba el motivo..." formControlName="metaMotivo" >
+                        </div>
+                        <div class="col-xl-6">
+                            <label for="metaObjetivo" class="form-label">Objetivo: <sup>*</sup></label>
+                            <input type="number" class="form-control form-control-lg mb-3" id="metaObjetivo"
+                                placeholder="Escriba el objetivo..." formControlName="metaObjetivo" >
+                        </div>
+                        <div class="col-xl-6">
+                            <label for="metaAhorrado" class="form-label">Ahorrado: <sup>*</sup></label>
+                            <input type="number" class="form-control form-control-lg mb-3" id="metaAhorrado"
+                                placeholder="Escriba lo ahorrado..." formControlName="metaAhorrado" >
+                        </div>
+                        <div class="col-xl-6">
+                          <label for="metaFecha" class="form-label">Fecha: <sup>*</sup></label>
+                          <input type="date" class="form-control form-control-lg mb-3" id="metaFecha"
+                              placeholder="Escriba la fecha..." formControlName="metaFecha" >
+                      </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="closeModal('addRMetaModal')">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="update()">Editar</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  <!-- add money -->
+  <div class="modal fade" id="addMoneyModal" tabindex="-1" aria-labelledby="addMoneyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addMoneyModalLabel">Agregar ahorro.</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="addMoneyForm">
+                    <div class="row">
+                        
+                        <div class="col-xl-6">
+                            <label for="amount" class="form-label">Ahorro: <sup>*</sup></label>
+                            <input type="number" class="form-control form-control-lg mb-3" id="amount"
+                                placeholder="Escriba lo ahorrado..." formControlName="amount" >
+                        </div>
+                      </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="closeModal('addMoneyModal')">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="addMoney()">Agregar</button>
+            </div>
+        </div>
+    </div>
+  </div>
+   
+
+ <div>
+    
